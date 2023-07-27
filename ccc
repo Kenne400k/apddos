@@ -1,10 +1,10 @@
 const axios = require('axios');
 
 module.exports.config = {
-    name: "dus",
+    name: "ddos",
     version: "1.0.0",
     hasPermssion: 0,
-    credits: "ShinTHL09",
+    credits: "pcoder",
     description: "Send requests to an API",
     commandCategory: "Tiện ích",
     usages: "~dus cc <method> <web> <time>",
