@@ -1,0 +1,44 @@
+const axios = require('axios');
+
+module.exports.config = {
+    name: "dus",
+    version: "1.0.0",
+    hasPermssion: 0,
+    credits: "ShinTHL09",
+    description: "Send requests to an API",
+    commandCategory: "Tiện ích",
+    usages: "~dus cc <method> <web> <time>",
+    cooldowns: 5,
+    dependencies: { }
+}
+
+module.exports.run = async function({ api, args, event }) {
+    const { threadID, messageID } = event;
+    const apiUrl = "http://pcoder.pagekite.me/layer7?apikey=NuxBasic_5612801409";
+    const imageUrl = "https://i.imgur.com/ZAFjAgU.gif";
+
+    if (args[0] === "cc" && args[1] && args[2] && args[3]) {
+        const method = args[1];
+        const web = args[2];
+        const time = args[3];
+
+        try {
+            const response = await axios.get(`${apiUrl}&method=${method}&web=${web}&time=${time}`);
+            const data = response.data;
+
+            if (data.status === "1") {
+                api.sendMessage(`→ Gửi yêu cầu thành công!\n→ Kết quả: ${data.message}`, threadID, messageID);
+            } else {
+                api.sendMessage(`→ Gửi yêu cầu không thành công!\n→ Lỗi: ${data.message}`, threadID, messageID);
+            }
+        } catch (error) {
+            console.error(error);
+            api.sendMessage("→ Gửi yêu cầu thất bại!", threadID, messageID);
+        }
+    } else {
+        api.sendMessage({
+            body: "====== [ MENU DUS ] ======\n⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯\n\n→ Dùng lệnh ~dus cc <method> <web> <time> để gửi yêu cầu!\n→ Ví dụ: ~dus cc get http://example.com 60\n\n",
+            attachment: fs.createReadStream(imageUrl)
+        }, threadID, messageID);
+    }
+}
